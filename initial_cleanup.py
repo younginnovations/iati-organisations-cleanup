@@ -1,8 +1,24 @@
 # coding: utf-8
 import csv
 import re
+import logging
 from helper import getListnameFromIdentifier, OrgTypeCodelist, IATIOrgIdCodelist, OrgIdGuideList
 from organisation import OrganisationMetadata, OrganisationCollection
+
+
+logFormatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("iati-organisation")
+logger.setLevel(logging.DEBUG)
+
+fileHandler = logging.FileHandler('out/initialcleanup-processing.log')
+fileHandler.setLevel(logging.DEBUG)
+fileHandler.setFormatter(logFormatter)
+logger.addHandler(fileHandler)
+
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+consoleHandler.setLevel(logging.DEBUG)
+logger.addHandler(consoleHandler)
 
 orgidGuideList = OrgIdGuideList()
 iatiOrgidCodelist = IATIOrgIdCodelist()
@@ -31,6 +47,7 @@ ORGCSV = OrganisationCSVColumn()
 PUBCSV = PublisherCSVColumn()
 
 filepath = "data/organisation.data.xml.csv"
+logger.info("Processing organisation xml data from %s", filepath)
 with open(filepath, "rb") as fp:
     reader = csv.reader(fp)
     reader.next()
@@ -62,13 +79,14 @@ with open(filepath, "rb") as fp:
 orgTypeCodelist = OrgTypeCodelist()
 
 filepath = "data/publishers.data.scrapping.csv"
+logger.info("Processing scrapped publishers data from %s", filepath)
 with open(filepath, "rb") as fp:
     reader = csv.reader(fp)
     reader.next()
     for row in reader:
         identifier = row[PUBCSV.IDENTIFIER].strip()
         if identifier == "":
-            # not interested for blank identifiers
+            # not interested if identifier is blank
             continue
         organisations.checkAndUpdate({
             ORG.IDENTIFIER: row[PUBCSV.IDENTIFIER].strip(),
@@ -80,4 +98,5 @@ with open(filepath, "rb") as fp:
             ORG.IS_PUBLISHER: "true",
         })
 
-print organisations.export2csv("out/organisations-new2.csv")
+organisations.export2csv("out/organisations-new2.csv")
+logger.info("Valid organiations count: %d", len(organisations.orgs))

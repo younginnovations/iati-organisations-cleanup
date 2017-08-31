@@ -10,7 +10,7 @@ def getListnameFromIdentifier(identifier):
 
 class OrgTypeCodelist:
     def __init__(self, filepath = "data/codelist-organisation-type.csv"):
-        self.types = {}s
+        self.types = {}
         with open(filepath, "rb") as fp:
             reader = csv.reader(fp)
             reader.next()

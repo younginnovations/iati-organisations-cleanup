@@ -1,4 +1,5 @@
 from helper import getListnameFromIdentifier
+import logging
 import csv
 
 class OrganisationMetadata:
@@ -15,6 +16,7 @@ ORG = OrganisationMetadata
 
 class OrganisationCollection:
     def __init__(self, orgidGuideList, iatiOrgidCodelist):
+        self.logger = logging.getLogger("iati-organisation")
         self.orgidGuideList = orgidGuideList
         self.iatiOrgidCodelist = iatiOrgidCodelist
         self.orgs = {}
@@ -32,18 +34,20 @@ class OrganisationCollection:
         if not self.checkIdentifier(data[ORG.IDENTIFIER]):
             # print "Couldn't use ",data[ORG.IDENTIFIER]
             # if invalid identifier, ignore
+            self.logger.error("Invalid identifier for '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
             return
         if data[ORG.IDENTIFIER] in self.orgs.keys():
             # if existing identifier, see if other data could be updated
             self.updateOtherMetadata(data)
+            self.logger.debug("Updated metadata for '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
             return
         if data[ORG.NAME] in self.names:
             # if name is existing, then that's case of different identifier,
             #   need a mechanism to report this issue
             self.existingOrgName(data)
+            self.logger.error("Duplicate Name '%s' for [%s] and [%s]", data[ORG.NAME], data[ORG.IDENTIFIER], self.names[data[ORG.NAME]])
             return
         # add new organisation data to the collection
-
         self.addNewValidOrg(data)
 
     def updateOtherMetadata(self, data):
@@ -100,6 +104,7 @@ class OrganisationCollection:
             org[ORG.COUNTRY] = data[ORG.COUNTRY]
         self.orgs[org[ORG.IDENTIFIER]] = org
         self.names[data[ORG.NAME]] = data[ORG.IDENTIFIER]
+        self.logger.debug("New organisation added: '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
 
     def export2csv(self, outfilename):
         countRows = 0
@@ -109,8 +114,9 @@ class OrganisationCollection:
             # if multiple language for the same organisation, then show the languages in separate columns
             for lang in self.languages:
                 header.append(lang)
-            header += ["identifier",
+            header += [
                 "name",
+                "identifier",
                 "type",
                 "country",
                 "is_org_file",
@@ -142,4 +148,3 @@ class OrganisationCollection:
                         org[ORG.IS_PUBLISHER],
                     ]
                     w.writerow(data)
-        return countRows

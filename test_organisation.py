@@ -18,7 +18,18 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.LANGUAGE: "en",
         }
         organisations.checkAndUpdate(row1)
+
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+            ]
+        }
+        expected_orgs = {
+            "NP-CRO-41009723": expected_org
+        }
         assert(len(organisations.orgs) == 1)
+        assert(organisations.orgs == expected_orgs)
 
     def test_invalid(self):
         organisations = OrganisationCollection(orgidGuideList, iatiOrgidCodelist)
@@ -56,7 +67,18 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.LANGUAGE: "en",
         }
         organisations.checkAndUpdate(row1)
+
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+            ]
+        }
+        expected_orgs = {
+            "NP-CRO-41009723": expected_org
+        }
         assert(len(organisations.orgs) == 1)
+        assert(organisations.orgs == expected_orgs)
 
         row2 = {
             ORG.IDENTIFIER: "NP-CRO-41009723-1",
@@ -64,7 +86,19 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.LANGUAGE: "en",
         }
         organisations.checkAndUpdate(row2)
+
+        expected_org2 = {
+            ORG.IDENTIFIER: "NP-CRO-41009723-1",
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL-1"},
+            ]
+        }
+        expected_orgs = {
+            "NP-CRO-41009723": expected_org,
+            "NP-CRO-41009723-1": expected_org2
+        }
         assert(len(organisations.orgs) == 2)
+        assert(organisations.orgs == expected_orgs)
 
     def test_different_id_same_name(self):
         organisations = OrganisationCollection(orgidGuideList, iatiOrgidCodelist)
@@ -74,6 +108,16 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.LANGUAGE: "en",
         }
         organisations.checkAndUpdate(row1)
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+            ]
+        }
+        expected_orgs = {
+            "NP-CRO-41009723": expected_org
+        }
+        assert(organisations.orgs == expected_orgs)
         assert(len(organisations.orgs) == 1)
 
         row2 = {
@@ -82,6 +126,7 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.LANGUAGE: "en",
         }
         organisations.checkAndUpdate(row2)
+        assert(organisations.orgs == expected_orgs)
         assert(len(organisations.orgs) == 1)
 
     def test_update_country(self):
@@ -102,9 +147,19 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.COUNTRY: "Nepal",
         }
         organisations.checkAndUpdate(row2)
+
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.COUNTRY: "Nepal",
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+            ]
+        }
+
         assert(len(organisations.orgs) == 1)
-        assert(ORG.COUNTRY in organisations.orgs["NP-CRO-41009723"])
-        assert(organisations.orgs["NP-CRO-41009723"][ORG.COUNTRY] == "Nepal")
+        assert(organisations.orgs["NP-CRO-41009723"] == expected_org)
+        # assert(ORG.COUNTRY in organisations.orgs["NP-CRO-41009723"])
+        # assert(organisations.orgs["NP-CRO-41009723"][ORG.COUNTRY] == "Nepal")
 
     def test_update_type(self):
         organisations = OrganisationCollection(orgidGuideList, iatiOrgidCodelist)
@@ -114,8 +169,16 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.LANGUAGE: "en",
         }
         organisations.checkAndUpdate(row1)
-        assert(not ORG.TYPE in organisations.orgs["NP-CRO-41009723"])
+
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+            ]
+        }
         assert(len(organisations.orgs) == 1)
+        assert(organisations.orgs["NP-CRO-41009723"] == expected_org)
+        assert(not ORG.TYPE in organisations.orgs["NP-CRO-41009723"])
 
         row2 = {
             ORG.IDENTIFIER: "NP-CRO-41009723",
@@ -124,7 +187,17 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.TYPE: 20,
         }
         organisations.checkAndUpdate(row2)
+
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.TYPE: 20,
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+            ]
+        }
+
         assert(len(organisations.orgs) == 1)
+        assert(organisations.orgs["NP-CRO-41009723"] == expected_org)
         assert(ORG.TYPE in organisations.orgs["NP-CRO-41009723"])
         assert(organisations.orgs["NP-CRO-41009723"][ORG.TYPE] == 20)
 
@@ -146,10 +219,23 @@ class TestOrganisationCollection(unittest.TestCase):
             ORG.TYPE: 20,
         }
         organisations.checkAndUpdate(row2)
-        assert(len(organisations.orgs) == 1)
-        assert(len(organisations.orgs["NP-CRO-41009723"][ORG.NAMELIST])==2)
-        assert(organisations.orgs["NP-CRO-41009723"][ORG.NAMELIST][0][ORG.LANGUAGE] == "en")
-        assert(organisations.orgs["NP-CRO-41009723"][ORG.NAMELIST][1][ORG.LANGUAGE] == "fr")
+
+        expected_org = {
+            ORG.IDENTIFIER: "NP-CRO-41009723",
+            ORG.TYPE: 20,
+            ORG.NAMELIST: [
+                {ORG.LANGUAGE: "en", ORG.NAME: "YIPL"},
+                {ORG.LANGUAGE: "fr", ORG.NAME: "YIPL-fr"}
+            ]
+        }
+        expected_orgs = {
+            "NP-CRO-41009723": expected_org
+        }
+        assert(organisations.orgs == expected_orgs)
+        assert(organisations.orgs["NP-CRO-41009723"] == expected_org)
+        # assert(len(organisations.orgs["NP-CRO-41009723"][ORG.NAMELIST])==2)
+        # assert(organisations.orgs["NP-CRO-41009723"][ORG.NAMELIST][0][ORG.LANGUAGE] == "en")
+        # assert(organisations.orgs["NP-CRO-41009723"][ORG.NAMELIST][1][ORG.LANGUAGE] == "fr")
 
 if __name__ == "__main__":
     unittest.main()

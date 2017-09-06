@@ -13,7 +13,7 @@ if not TblOrganisation.table_exists():
 if not TblName.table_exists():
     database.create_table(TblName)
 
-filepath = "out/organisations-clean.csv"
+filepath = SRC_DIR + "out/organisations-clean.csv"
 # logger.info("Dumping cleaned organisations data from %s", filepath)
 with open(filepath, "rb") as fp:
     reader = csv.DictReader(fp)

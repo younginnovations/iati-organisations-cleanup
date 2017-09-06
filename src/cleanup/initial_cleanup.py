@@ -2,7 +2,7 @@
 import csv
 import re
 import logging
-from helper import getListnameFromIdentifier, OrgTypeCodelist, IATIOrgIdCodelist, OrgIdGuideList
+from helper import getListnameFromIdentifier, OrgTypeCodelist, IATIOrgIdCodelist, OrgIdGuideList, SRC_DIR
 from organisation import OrganisationMetadata, OrganisationCollection
 
 
@@ -10,7 +10,7 @@ logFormatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(mes
 logger = logging.getLogger("iati-organisation")
 logger.setLevel(logging.DEBUG)
 
-fileHandler = logging.FileHandler('out/initialcleanup-processing.log')
+fileHandler = logging.FileHandler(SRC_DIR + 'out/initialcleanup-processing.log')
 fileHandler.setLevel(logging.DEBUG)
 fileHandler.setFormatter(logFormatter)
 logger.addHandler(fileHandler)
@@ -46,7 +46,7 @@ class PublisherCSVColumn:
 ORGCSV = OrganisationCSVColumn()
 PUBCSV = PublisherCSVColumn()
 
-filepath = "data/organisation.data.xml.csv"
+filepath = SRC_DIR + "data/organisation.data.xml.csv"
 logger.info("Processing organisation xml data from %s", filepath)
 with open(filepath, "rb") as fp:
     reader = csv.reader(fp)
@@ -78,7 +78,7 @@ with open(filepath, "rb") as fp:
 
 orgTypeCodelist = OrgTypeCodelist()
 
-filepath = "data/publishers.data.scrapping.csv"
+filepath = SRC_DIR + "data/publishers.data.scrapping.csv"
 logger.info("Processing scrapped publishers data from %s", filepath)
 with open(filepath, "rb") as fp:
     reader = csv.reader(fp)
@@ -98,5 +98,5 @@ with open(filepath, "rb") as fp:
             ORG.IS_PUBLISHER: "true",
         })
 
-organisations.export2csv("out/organisations-clean.csv")
+organisations.export2csv(SRC_DIR + "out/organisations-clean.csv")
 logger.info("Valid organiations count: %d", len(organisations.orgs))

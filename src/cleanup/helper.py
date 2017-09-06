@@ -1,5 +1,8 @@
 import re
+import os
 import csv
+
+SRC_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../"
 
 def getListnameFromIdentifier(identifier):
     m = re.search("([^-]*)-([^-]*)-(.*)", identifier)
@@ -9,7 +12,7 @@ def getListnameFromIdentifier(identifier):
     return registration_agency
 
 class OrgTypeCodelist:
-    def __init__(self, filepath = "data/codelist-organisation-type.csv"):
+    def __init__(self, filepath = SRC_DIR + "data/codelist-organisation-type.csv"):
         self.types = {}
         with open(filepath, "rb") as fp:
             reader = csv.reader(fp)
@@ -23,7 +26,7 @@ class OrgTypeCodelist:
         return name
 
 class OrgIdGuideList:
-    def __init__(self, filepath = "data/org-id.guide.csv"):
+    def __init__(self, filepath = SRC_DIR  + "data/org-id.guide.csv"):
         self.codes = {}
         with open(filepath, "rb") as fp:
             reader = csv.reader(fp)
@@ -36,7 +39,7 @@ class OrgIdGuideList:
 
 
 class IATIOrgIdCodelist:
-    def __init__(self, filepath = "data/iati-identifiers.csv"):
+    def __init__(self, filepath = SRC_DIR + "data/iati-identifiers.csv"):
         self.codes = {}
         with open(filepath, "rb") as fp:
             reader = csv.reader(fp)

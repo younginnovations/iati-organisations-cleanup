@@ -13,7 +13,8 @@ For each organisation data, the script checks (see `OrganisationCollection>check
 
 #### Data Cleanup
 
-`python initial_cleanup.py`
+* source are in `src/cleanup`
+* Run `python initial_cleanup.py` to cleanup organisation data
 
 It reads [data/organisation.data.xml.csv](data/organisation.data.xml.csv) and [data/publishers.data.scrapping.csv](data/publishers.data.scrapping.csv) and generates `out/organisations-clean.csv` containing valid organisations information.
 
@@ -21,7 +22,8 @@ The `organisations-clean.csv` is cleaned-up manually if needed.
 
 #### Data Dump
 
+* source are in `src/dump`
 * copy `config.py.bak` to `config.py`
 * create mysql database and update `config.py` with mysql credentials
-* `python dump.py` reads `orgnaisations-clean.csv` and dumps the data into the database you have just created
+* Run `python dump.py` which reads `organisations-clean.csv` and dumps the data into the database you have just created
 

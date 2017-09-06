@@ -2,6 +2,8 @@ import logging
 import csv
 from organisation_model import *
 
+
+#TODO: check if the database exists or not
 database.connect()
 if TblName.table_exists():
     database.drop_table(TblName)
@@ -14,7 +16,8 @@ if not TblName.table_exists():
     database.create_table(TblName)
 
 filepath = SRC_DIR + "out/organisations-clean.csv"
-# logger.info("Dumping cleaned organisations data from %s", filepath)
+
+#TODO: error handling
 with open(filepath, "rb") as fp:
     reader = csv.DictReader(fp)
     languages = []

@@ -143,7 +143,7 @@ class OrganisationCollection:
                         name,
                         org[ORG.IDENTIFIER],
                         org[ORG.TYPE],
-                        org[ORG.COUNTRY],
+                        org[ORG.COUNTRY] if ORG.COUNTRY in org else "",
                         org[ORG.IS_ORG_FILE] if ORG.IS_ORG_FILE in org else "",
                         org[ORG.IS_PUBLISHER],
                     ]

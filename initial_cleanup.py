@@ -98,5 +98,5 @@ with open(filepath, "rb") as fp:
             ORG.IS_PUBLISHER: "true",
         })
 
-organisations.export2csv("out/organisations-new2.csv")
+organisations.export2csv("out/organisations-clean.csv")
 logger.info("Valid organiations count: %d", len(organisations.orgs))

@@ -1,0 +1,4 @@
+MYSQL_HOST='host-ip'
+MYSQL_DATABASE='database-name'
+MYSQL_USER='user-here'
+MYSQL_PASSWORD='password-here'

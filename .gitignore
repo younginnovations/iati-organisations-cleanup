@@ -1,3 +1,4 @@
 *.pyc
 .DS_store
 .ipynb_checkpoints/
+config.py

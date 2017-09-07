@@ -84,7 +84,7 @@ with open(filepath, "rb") as fp:
     reader = csv.reader(fp)
     reader.next()
     for row in reader:
-        identifier = row[PUBCSV.IDENTIFIER].strip()
+        identifier = row[PUBCSV.IDENTIFIER].strip() if row else ""
         if identifier == "":
             # not interested if identifier is blank
             continue

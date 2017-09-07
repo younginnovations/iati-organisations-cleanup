@@ -43,7 +43,7 @@ class OrganisationCollection:
             return
         if data[ORG.NAME] in self.names:
             # if name is existing, then that's case of different identifier,
-            #   need a mechanism to report this issue
+            #   TODO: need a mechanism to report this issue
             self.existingOrgName(data)
             self.logger.error("Duplicate Name '%s' for [%s] and [%s]", data[ORG.NAME], data[ORG.IDENTIFIER], self.names[data[ORG.NAME]])
             return
@@ -98,8 +98,11 @@ class OrganisationCollection:
             })
 
     def existingOrgName(self, data):
-        # report error that the identifier is different
-        pass
+        # lets ignore the identifier for now, and update other information.
+        # update org-id to the one that's stored locally for the processing
+        # TODO: needs to look into this logic
+        data[ORG.IDENTIFIER] = self.names[data[ORG.NAME]]
+        self.updateOtherMetadata(data)
 
     def getLanguage(self, language):
         language = language.lower()

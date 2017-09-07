@@ -31,24 +31,27 @@ class OrganisationCollection:
 
     def checkAndUpdate(self, data):
         data[ORG.IDENTIFIER] = data[ORG.IDENTIFIER].strip()
-        if not self.checkIdentifier(data[ORG.IDENTIFIER]):
-            # print "Couldn't use ",data[ORG.IDENTIFIER]
-            # if invalid identifier, ignore
-            self.logger.error("Invalid identifier for '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
-            return
+        addNewOrg = True
         if data[ORG.IDENTIFIER] in self.orgs.keys():
             # if existing identifier, see if other data could be updated
             self.updateOtherMetadata(data)
             self.logger.debug("Updated metadata for '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
             return
+        if not self.checkIdentifier(data[ORG.IDENTIFIER]):
+            # print "Couldn't use ",data[ORG.IDENTIFIER]
+            # if invalid identifier, ignore
+            addNewOrg = False
+            self.logger.error("Invalid identifier for '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
         if data[ORG.NAME] in self.names:
             # if name is existing, then that's case of different identifier,
             #   TODO: need a mechanism to report this issue
+            addNewOrg = False
             self.existingOrgName(data)
             self.logger.error("Duplicate Name '%s' for [%s] and [%s]", data[ORG.NAME], data[ORG.IDENTIFIER], self.names[data[ORG.NAME]])
             return
         # add new organisation data to the collection
-        self.addNewValidOrg(data)
+        if addNewOrg:
+            self.addNewValidOrg(data)
 
     def isCountryValid(self, countryname):
         return countryname.strip() != "(No country assigned)"

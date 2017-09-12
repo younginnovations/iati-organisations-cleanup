@@ -24,6 +24,6 @@ The `organisations-clean.csv` is cleaned-up manually if needed.
 
 * source are in `src/dump`
 * copy `config.py.bak` to `config.py`
-* create mysql database and update `config.py` with mysql credentials
+* create postgres database and update `config.py` with credentials
 * Run `python dump.py` which reads `organisations-clean.csv` and dumps the data into the database you have just created
 

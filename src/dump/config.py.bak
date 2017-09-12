@@ -1,7 +1,7 @@
 import os
 SRC_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../"
 
-MYSQL_HOST='host-ip'
-MYSQL_DATABASE='database-name'
-MYSQL_USER='user-here'
-MYSQL_PASSWORD='password-here'
+POSTGRES_DATABASE='v'
+POSTGRES_USER='user-here'
+POSTGRES_PASSWORD='password-here'
+POSTGRES_HOST='host-ip'

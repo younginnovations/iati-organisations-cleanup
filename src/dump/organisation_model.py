@@ -2,7 +2,7 @@ from peewee import *
 import datetime
 from config import *
 
-database = MySQLDatabase(MYSQL_DATABASE, user=MYSQL_USER, password=MYSQL_PASSWORD, host=MYSQL_HOST, charset='utf8')
+database = PostgresqlDatabase(POSTGRES_DATABASE, user=POSTGRES_USER, password=POSTGRES_PASSWORD, host=POSTGRES_HOST)
 
 class TblOrganisation(Model):
     id = PrimaryKeyField()

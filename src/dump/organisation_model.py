@@ -25,7 +25,7 @@ class TblName(Model):
         database = database
 
 def getLanguages(row):
-    knownheader = ["name", "identifier", "type", "country", "is_org_file", "is_publisher"]
+    knownheader = ["name", "identifier", "type", "country", "countrycode", "is_org_file", "is_publisher"]
     languages = []
     for key in row.keys():
         key = key.strip()

@@ -2,7 +2,7 @@
 import csv
 import re
 import logging
-from helper import getListnameFromIdentifier, OrgTypeCodelist, IATIOrgIdCodelist, OrgIdGuideList, SRC_DIR
+from helper import getListnameFromIdentifier, OrgTypeCodelist, IATIOrgIdCodelist, OrgIdGuideList, CountryCodelist, SRC_DIR
 from organisation import OrganisationMetadata, OrganisationCollection
 
 
@@ -22,9 +22,10 @@ logger.addHandler(consoleHandler)
 
 orgidGuideList = OrgIdGuideList()
 iatiOrgidCodelist = IATIOrgIdCodelist()
+countryCodelist = CountryCodelist()
 
 ORG = OrganisationMetadata
-organisations = OrganisationCollection(orgidGuideList, iatiOrgidCodelist)
+organisations = OrganisationCollection(orgidGuideList, iatiOrgidCodelist, countryCodelist)
 
 class OrganisationCSVColumn:
     VERSION = 0

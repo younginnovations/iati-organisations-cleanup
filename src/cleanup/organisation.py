@@ -9,16 +9,18 @@ class OrganisationMetadata:
     LANGUAGE = 3
     TYPE = 4
     COUNTRY = 5
+    COUNTRYCODE = 6
     IS_PUBLISHER = 10
     IS_ORG_FILE = 11
 
 ORG = OrganisationMetadata
 
 class OrganisationCollection:
-    def __init__(self, orgidGuideList, iatiOrgidCodelist):
+    def __init__(self, orgidGuideList, iatiOrgidCodelist, countryCodelist):
         self.logger = logging.getLogger("iati-organisation")
         self.orgidGuideList = orgidGuideList
         self.iatiOrgidCodelist = iatiOrgidCodelist
+        self.countryCodelist = countryCodelist
         self.orgs = {}
         self.names = {}
         self.languages = []
@@ -92,6 +94,7 @@ class OrganisationCollection:
             org[ORG.IS_ORG_FILE] = data[ORG.IS_ORG_FILE]
         if ORG.COUNTRY in data and data[ORG.COUNTRY] and self.isCountryValid(data[ORG.COUNTRY]):
             org[ORG.COUNTRY] = data[ORG.COUNTRY]
+            org[ORG.COUNTRYCODE] = self.countryCodelist.getCode(data[ORG.COUNTRY])
         if ORG.TYPE in data and data[ORG.TYPE]:
             org[ORG.TYPE] = data[ORG.TYPE]
         if self.isOrgNameNew(data):
@@ -133,6 +136,7 @@ class OrganisationCollection:
             org[ORG.IS_ORG_FILE] = data[ORG.IS_ORG_FILE]
         if ORG.COUNTRY in data and self.isCountryValid(data[ORG.COUNTRY]):
             org[ORG.COUNTRY] = data[ORG.COUNTRY]
+            org[ORG.COUNTRYCODE] = self.countryCodelist.getCode(data[ORG.COUNTRY])
         self.orgs[org[ORG.IDENTIFIER]] = org
         self.names[data[ORG.NAME]] = data[ORG.IDENTIFIER]
         self.logger.debug("New organisation added: '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
@@ -150,6 +154,7 @@ class OrganisationCollection:
                 "identifier",
                 "type",
                 "country",
+                "countrycode",
                 "is_org_file",
                 "is_publisher",
             ]
@@ -175,6 +180,7 @@ class OrganisationCollection:
                         org[ORG.IDENTIFIER],
                         org[ORG.TYPE],
                         org[ORG.COUNTRY] if ORG.COUNTRY in org else "",
+                        org[ORG.COUNTRYCODE] if ORG.COUNTRYCODE in org else "",
                         org[ORG.IS_ORG_FILE] if ORG.IS_ORG_FILE in org else "",
                         org[ORG.IS_PUBLISHER],
                     ]

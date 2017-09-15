@@ -18,6 +18,7 @@ if not TblName.table_exists():
 filepath = SRC_DIR + "out/organisations-clean.csv"
 
 #TODO: error handling
+
 with open(filepath, "rb") as fp:
     reader = csv.DictReader(fp)
     languages = []
@@ -28,7 +29,7 @@ with open(filepath, "rb") as fp:
         organisation = TblOrganisation.create(
             identifier = row["identifier"],
             type = row["type"] if row["type"] else 0,
-            country = row["country"],
+            country = row["countrycode"],
             is_org_file = 1 if row["is_org_file"] else 0,
             is_publisher = 1 if row["is_publisher"] else 0
         )

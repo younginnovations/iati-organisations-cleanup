@@ -31,7 +31,8 @@ with open(filepath, "rb") as fp:
             type = row["type"] if row["type"] else 0,
             country = row["countrycode"],
             is_org_file = 1 if row["is_org_file"] else 0,
-            is_publisher = 1 if row["is_publisher"] else 0
+            is_publisher = 1 if row["is_publisher"] else 0,
+            last_updated = row["last_updated"] if row["last_updated"] else None
         )
         enName = row["en"].strip()
         if enName:

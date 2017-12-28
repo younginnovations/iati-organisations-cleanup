@@ -9,9 +9,9 @@ class TblOrganisation(Model):
     identifier = CharField(unique=True)
     type = IntegerField()
     country = CharField()
-    is_org_file = BooleanField(default = False)
-    is_publisher = BooleanField(default = False)
-    last_updated = DateTimeField(default = datetime.datetime.now().strftime('%Y-%m-%d'))
+    is_org_file = BooleanField(default=False)
+    is_publisher = BooleanField(default=False)
+    last_updated = DateTimeField(null=True, default=datetime.datetime.now().strftime('%Y-%m-%d'))
     class Meta:
         db_table = "organisations"
         database = database
@@ -25,7 +25,7 @@ class TblName(Model):
         database = database
 
 def getLanguages(row):
-    knownheader = ["name", "identifier", "type", "country", "countrycode", "is_org_file", "is_publisher"]
+    knownheader = ["name", "identifier", "type", "country", "countrycode", "is_org_file", "is_publisher", "last_updated"]
     languages = []
     for key in row.keys():
         key = key.strip()

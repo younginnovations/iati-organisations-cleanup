@@ -65,6 +65,7 @@ with open(filepath, "rb") as fp:
             ORG.LANGUAGE: row[ORGCSV.LANGUAGE].strip(),
             ORG.IS_ORG_FILE: "true",
             ORG.IS_PUBLISHER: "false",
+            ORG.LAST_UPDATED: row[ORGCSV.LASTUPDATED].strip()
         })
         if row[ORGCSV.REPORTINGORG_ID].strip() == "":
             continue

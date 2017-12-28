@@ -12,6 +12,7 @@ class OrganisationMetadata:
     COUNTRYCODE = 6
     IS_PUBLISHER = 10
     IS_ORG_FILE = 11
+    LAST_UPDATED = 15
 
 ORG = OrganisationMetadata
 
@@ -137,6 +138,8 @@ class OrganisationCollection:
         if ORG.COUNTRY in data and self.isCountryValid(data[ORG.COUNTRY]):
             org[ORG.COUNTRY] = data[ORG.COUNTRY]
             org[ORG.COUNTRYCODE] = self.countryCodelist.getCode(data[ORG.COUNTRY])
+        if ORG.LAST_UPDATED in data:
+            org[ORG.LAST_UPDATED] = data[ORG.LAST_UPDATED]
         self.orgs[org[ORG.IDENTIFIER]] = org
         self.names[data[ORG.NAME]] = data[ORG.IDENTIFIER]
         self.logger.debug("New organisation added: '%s' [%s]", data[ORG.NAME], data[ORG.IDENTIFIER])
@@ -157,6 +160,7 @@ class OrganisationCollection:
                 "countrycode",
                 "is_org_file",
                 "is_publisher",
+                "last_updated"
             ]
             w.writerow(header)
             for identifier in self.orgs:
@@ -183,5 +187,6 @@ class OrganisationCollection:
                         org[ORG.COUNTRYCODE] if ORG.COUNTRYCODE in org else "",
                         org[ORG.IS_ORG_FILE] if ORG.IS_ORG_FILE in org else "",
                         org[ORG.IS_PUBLISHER],
+                        org[ORG.LAST_UPDATED] if ORG.LAST_UPDATED in org else "",
                     ]
                     w.writerow(data)

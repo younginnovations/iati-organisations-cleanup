@@ -6,14 +6,10 @@ from organisation_model import *
 #TODO: check if the database exists or not
 database.connect()
 if TblName.table_exists():
-    database.drop_table(TblName)
+    database.drop_tables([TblName])
 if TblOrganisation.table_exists():
-    database.drop_table(TblOrganisation)
-
-if not TblOrganisation.table_exists():
-    database.create_table(TblOrganisation)
-if not TblName.table_exists():
-    database.create_table(TblName)
+    database.drop_tables([TblOrganisation])
+database.create_tables([TblName, TblOrganisation])
 
 OUT_DIR = os.path.dirname(os.path.realpath(__file__)) + "/out/"
 

@@ -6,7 +6,7 @@ database = PostgresqlDatabase(POSTGRES_DATABASE, user=POSTGRES_USER, password=PO
 
 class TblOrganisation(Model):
     id = PrimaryKeyField()
-    identifier = CharField(unique=True)
+    identifier = CharField()
     type = IntegerField()
     country = CharField()
     is_org_file = BooleanField(default=False)

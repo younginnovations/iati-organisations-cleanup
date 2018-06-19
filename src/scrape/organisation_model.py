@@ -19,6 +19,7 @@ class TblOrganisation(Model):
 class TblName(Model):
     organisation = ForeignKeyField(TblOrganisation, to_field="id", related_name='names')
     name = TextField()
+    is_primary = BooleanField(default=True)
     language = CharField()
     class Meta:
         db_table = "names"

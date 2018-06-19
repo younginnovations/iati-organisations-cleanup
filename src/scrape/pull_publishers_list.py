@@ -50,6 +50,8 @@ class CountryCodelist:
         code = self.tryNameVariation(name)
         if not code:
             code = self.tryRegion(name)
+            if code == "NIL":
+                code = ""
         if not code:
             return ""
         return code
@@ -89,7 +91,7 @@ with open(publishers_filename, "r") as filehandler:
     soup = BeautifulSoup(content, 'html.parser')
     with open(publishers_csv, "w") as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(["Name","Identifier", "TypeCode", "Type", "CountryCode", "Country"])
+        writer.writerow(["name","identifier", "type", "typename", "countrycode", "country"])
         for tr in soup.find_all("tr")[1:]:
             tds = tr.find_all("td")
             tds = list(tds)

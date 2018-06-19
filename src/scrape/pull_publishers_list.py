@@ -11,7 +11,9 @@ scrape_flag = False
 DATA_DIR = os.path.dirname(os.path.realpath(__file__)) + "/data/"
 OUT_DIR = os.path.dirname(os.path.realpath(__file__)) + "/out/"
 publishers_filename = os.path.join(DATA_DIR,"registry_publishers.html")
-if time.time() - os.path.getctime(publishers_filename) > (60*60*24):
+if not os.path.isfile(publishers_filename):
+    scrape_flag = True
+if os.path.isfile(publishers_filename) and time.time() - os.path.getctime(publishers_filename) > (60*60*24):
     # only scrape file if the file is older than 24 hours old
     scrape_flag = True
 if scrape_flag:
